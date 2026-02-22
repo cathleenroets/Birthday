@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Message Across Time</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background: radial-gradient(circle at 20% 30%, #1c2b3a, #0f2027 60%);
+    color: #f5f5f5;
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    transition: background 1.5s ease;
+}
+
+.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle 4s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%,100% {opacity: 0.2;}
+    50% {opacity: 1;}
+}
+
+.container {
+    width: 100%;
+    max-width: 760px;
+    position: relative;
+    z-index: 2;
+    padding: 30px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 60px rgba(255,215,0,0.25);
+    transform: scale(0.95);
+    opacity: 0;
+    transition: all 0.8s ease;
+}
+
+.container.show {
+    transform: scale(1);
+    opacity: 1;
+}
+
+button {
+    margin-top: 25px;
+    padding: 14px 28px;
+    font-size: 16px;
+    background: linear-gradient(45deg, #d4af37, #f1c40f);
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: 0.4s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px gold;
+}
+
+.hidden { display: none; }
+
+.serendipity-title {
+    font-size: 26px;
+    color: #f5d77a;
+    text-shadow: 0 0 15px #f1c40f;
+    animation: glow 3s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #d4af37; }
+    to { text-shadow: 0 0 35px #f1c40f; }
+}
+
+.arabic-glow {
+    font-size: 26px;
+    color: #f5d77a;
+    text-shadow: 0 0 10px #d4af37, 0 0 25px #f1c40f;
+    animation: glow 3s ease-in-out infinite alternate;
+}
+
+.saif-name {
+    color: #fff;
+    text-shadow: 0 0 15px #f1c40f;
+}
+
+.dim {
+    background: radial-gradient(circle at center, #000000, #050a12);
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+    h1 { font-size: 22px; }
+    h2 { font-size: 20px; }
+    p { font-size: 14px; }
+    button { font-size: 14px; padding: 12px 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container show" id="section1">
+    <h1>In the year 2026...</h1>
+    <p>A message travels across continents.</p>
+    <button onclick="transition('section1','section2')">Begin the Chronicle</button>
+</div>
+
+<div class="container hidden" id="section2">
+    <h2>To <span class="saif-name">Saif</span></h2>
+    <p>Also known as Sandman 🌙</p>
+    <button onclick="transition('section2','section3')">Enter the Era</button>
+</div>
+
+<div class="container hidden" id="section3">
+    <h2>The Era of First Conversations</h2>
+    <p>
+    Two minds met in digital space —<br>
+    one asking questions,<br>
+    the other asking better ones.
+    </p>
+    <button onclick="transition('section3','sectionSerendipity')">Continue</button>
+</div>
+
+<div class="container hidden" id="sectionSerendipity">
+    <h2 class="serendipity-title">Serendipity.</h2>
+    <p>I once told you that you are my serendipity.</p>
+    <p>Not dramatically. Not exaggerated.</p>
+    <p>But in the quiet way that two minds meet across continents and feel understood.</p>
+    <p>You listen without judgement. You make space. You make conversations safe.</p>
+    <p>That matters more than you probably realise.</p>
+    <button onclick="transition('sectionSerendipity','section5')">Continue</button>
+</div>
+
+<div class="container hidden" id="section5">
+    <h2 class="arabic-glow">
+        عيد ميلاد سعيد يا صديقي <span class="saif-name">سيف</span>
+    </h2>
+
+    <p><em>Happy Birthday, Saif, <span class="saif-name">Saif</span>.</em></p>
+
+    <p>
+    May this year bring you barakah,<br>
+    clarity,<br>
+    deeper questions than doubts,<br>
+    and endless cups of tea.
+    </p>
+    <p>P.S Don't judge my pronunciation, i tried 😂</p>
+
+    <button onclick="playVoice()" id="voiceBtn">
+        🌙 Tap to listen
+    </button>
+
+    <audio id="voiceNote">
+        <source src="Saif.mp4" type="audio/mp4">
+    </audio>
+
+    <button onclick="transition('section5','section6')">Sandman Protocol</button>
+</div>
+
+<div class="container hidden" id="section6">
+    <h2>System Override Activated 🌙</h2>
+    <p>Some stories are written in books.</p>
+    <p>Others begin with a message.</p>
+    <p>Happy Birthday, Sandman.</p>
+    <br>
+    <p>You are officially ancient</p>
+</div>
+
+<script>
+function createStars() {
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 120; i++) {
+        let star = document.createElement('div');
+        star.className = 'star';
+        let size = Math.random() * 3;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.animationDuration = (Math.random() * 4 + 2) + 's';
+        starsContainer.appendChild(star);
+    }
+}
+createStars();
+
+function transition(from, to) {
+    document.getElementById(from).classList.remove("show");
+    document.getElementById(from).classList.add("hidden");
+    const next = document.getElementById(to);
+    next.classList.remove("hidden");
+    setTimeout(() => next.classList.add("show"), 50);
+}
+
+function playVoice() {
+    const audio = document.getElementById("voiceNote");
+
+    audio.play().then(() => {
+        document.body.classList.add("dim");
+        document.getElementById("voiceBtn").innerText = "🌙 Playing...";
+    }).catch(error => {
+        console.log("Playback error:", error);
+    });
+
+    audio.onended = function() {
+        document.body.classList.remove("dim");
+        document.getElementById("voiceBtn").innerText = "🌙 Play Again";
+    };
+}
+</script>
+
+</body>
+</html>
+
+
